@@ -139,13 +139,6 @@ const Header = () => {
                 <Link to="/login" style={linkStyle}>
                   Нэвтрэх
                 </Link>
-                <Tooltip title="Тусламж">
-                  <IconButton sx={{ p: 0 }}>
-                    <Link to="/help" style={linkStyle}>
-                      <HelpIcon sx={{ fontSize: "40px" }} />
-                    </Link>
-                  </IconButton>
-                </Tooltip>
               </Stack>
             )}
           </Box>

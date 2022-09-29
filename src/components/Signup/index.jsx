@@ -37,16 +37,6 @@ const SignUp = (props) => {
 
   const [errors, setErrors] = useState("");
 
-  const [selectedDep, setSelectedDep] = useState("");
-  const [selectedLevel, setSelectedLevel] = useState("");
-  const [selectedPosition, setSelectedPosition] = useState("");
-  const [selectedDegree, setSelectedDegree] = useState("");
-  const [selectedAcadDegree, setSelectedAcadDegree] = useState("");
-
-  const [department, setDepartment] = useState([]);
-  const [teacherLevel, setTeacherLevel] = useState([]);
-  const [position, setPosition] = useState([]);
-
   useEffect(() => {
     setSpinner(userContext.state.saving);
   }, [userContext.state.saving]);
@@ -58,7 +48,6 @@ const SignUp = (props) => {
   }, [userContext.state.error]);
 
   useEffect(() => {
-    getData();
     return () => {
       resetAll();
     };
@@ -72,46 +61,6 @@ const SignUp = (props) => {
     setConfirmPassword("");
     setSpinner(false);
     setErrors("");
-    setSelectedDep("");
-    setSelectedLevel("");
-    setSelectedPosition("");
-    setSelectedDegree("");
-    setSelectedAcadDegree("");
-    setDepartment([]);
-    setTeacherLevel([]);
-    setPosition([]);
-  };
-
-  const getData = async () => {
-    try {
-      const dep = await readPost("system/schoolAndDep");
-      const pos = await readPost("system/position");
-      const level = await readPost("system/teacherLevel");
-      setDepartment(uniqueDep(dep));
-      setTeacherLevel(level);
-      setPosition(pos);
-    } catch (err) {
-      setErrors(err.message);
-    }
-  };
-
-  const uniqueDep = (arr) => {
-    let obj = [];
-    arr.forEach((element) => {
-      obj.push(element.department);
-    });
-    const uList = [...new Set(obj)];
-    return uList.sort();
-  };
-
-  const reset = () => {
-    setFullName("");
-    setEmail("");
-    setPassword("");
-    setConfirmPassword("");
-    setSelectedDep("");
-    setSelectedLevel("");
-    setErrors("");
   };
 
   const handleSubmit = () => {
@@ -121,31 +70,14 @@ const SignUp = (props) => {
       let err = "Баталгаажуулах нууц үг ижил биш байна";
       setErrors(err);
       setSpinner(false);
-    } else if (email.slice(-19) !== "@ulaanbaatar.edu.mn") {
-      let err =
-        "Та зөвхөн сургуулийн албан мэйл хаяг бүртгүүлэх боломжтой (XXX@ulaanbaatar.edu.mn)";
-      setErrors(err);
-      setSpinner(false);
     } else {
-      userContext
-        .signUpUser(
-          fullName,
-          email,
-          password,
-          selectedDep,
-          selectedLevel,
-          selectedPosition,
-          selectedDegree,
-          selectedAcadDegree
-        )
-        .then(() => {
-          props.handleClose();
-          props.handleOpenSuccessModal();
-          setSpinner(false);
-          reset();
-          setErrors("");
-          userContext.getData("users/");
-        });
+      userContext.signUpUser(fullName, email, password).then(() => {
+        props.handleClose();
+        props.handleOpenSuccessModal();
+        setSpinner(false);
+        resetAll();
+        setErrors("");
+      });
     }
   };
 
@@ -218,96 +150,6 @@ const SignUp = (props) => {
                   autoComplete="confirm-password"
                   onChange={(e) => setConfirmPassword(e.target.value)}
                 />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  id="selectedDep"
-                  fullWidth
-                  required
-                  select
-                  label="Тэнхим"
-                  value={selectedDep}
-                  onChange={(e) => setSelectedDep(e.target.value)}
-                  variant="outlined"
-                >
-                  {department.map((dep, key) => (
-                    <MenuItem key={key} value={dep}>
-                      {dep}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  id="selectedLevel"
-                  fullWidth
-                  required
-                  select
-                  label="Багшийн зэрэглэл"
-                  value={selectedLevel}
-                  onChange={(e) => setSelectedLevel(e.target.value)}
-                  variant="outlined"
-                >
-                  {teacherLevel.map((lev) => (
-                    <MenuItem key={lev.id} value={lev.teacherLevel}>
-                      {lev.teacherLevel}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  id="selectedLevel"
-                  fullWidth
-                  required
-                  select
-                  label="Албан тушаал"
-                  value={selectedPosition}
-                  onChange={(e) => setSelectedPosition(e.target.value)}
-                  variant="outlined"
-                >
-                  {position.map((pos) => (
-                    <MenuItem key={pos.id} value={pos.position}>
-                      {pos.position}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  id="degree"
-                  fullWidth
-                  required
-                  select
-                  label="Эрдмийн зэрэг"
-                  value={selectedDegree}
-                  onChange={(e) => setSelectedDegree(e.target.value)}
-                  variant="outlined"
-                >
-                  {Degree.map((el, key) => (
-                    <MenuItem key={key} value={el}>
-                      {el}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  id="acadDegree"
-                  fullWidth
-                  required
-                  select
-                  label="Цол"
-                  value={selectedAcadDegree}
-                  onChange={(e) => setSelectedAcadDegree(e.target.value)}
-                  variant="outlined"
-                >
-                  {AcademicDegree.map((el, key) => (
-                    <MenuItem key={key} value={el}>
-                      {el}
-                    </MenuItem>
-                  ))}
-                </TextField>
               </Grid>
             </Grid>
             {errors.length > 0 && <Alert severity="error">{errors}</Alert>}
