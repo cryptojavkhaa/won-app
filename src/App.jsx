@@ -7,6 +7,8 @@ import HomePage from "./pages/HomePage";
 import Registration from "./pages/Registration";
 import Login from "./pages/Login";
 import Recovery from "./pages/Recovery";
+import KortoMon from "./pages/Kortomon";
+import MontoKor from "./pages/Montokor";
 import Page404 from "./pages/404";
 
 const App = (props) => {
@@ -53,6 +55,22 @@ const App = (props) => {
           render={() => (
             <HomepageLayouts>
               <Page404 />
+            </HomepageLayouts>
+          )}
+        />
+        <Route
+          path="/montokor"
+          render={() => (
+            <HomepageLayouts>
+              <MontoKor />
+            </HomepageLayouts>
+          )}
+        />
+        <Route
+          path="/kortomon"
+          render={() => (
+            <HomepageLayouts>
+              <KortoMon />
             </HomepageLayouts>
           )}
         />
