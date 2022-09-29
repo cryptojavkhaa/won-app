@@ -15,9 +15,7 @@ import {
 } from "@mui/material/";
 import MenuIcon from "@mui/icons-material/Menu";
 import HelpIcon from "@mui/icons-material/Help";
-import Logo from "../../assets/iuu-logo-white.png";
 import UserContext from "../../context/UserContext";
-import "./styles.scss";
 
 const pages = [
   { page: "Ноогдол", path: "/plan" },
@@ -64,20 +62,6 @@ const Header = () => {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
-          >
-            <Link to="/">
-              <Avatar
-                src={Logo}
-                alt="IUU Logo"
-                sx={{ width: 40, height: 40 }}
-              />
-            </Link>
-          </Typography>
           {currentUser && (
             <Box sx={{ flexGrow: 15, display: { xs: "flex", md: "none" } }}>
               <IconButton
@@ -118,20 +102,6 @@ const Header = () => {
               </Menu>
             </Box>
           )}
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
-          >
-            <Link to="/">
-              <Avatar
-                src={Logo}
-                alt="IUU Logo"
-                sx={{ width: 40, height: 40 }}
-              />
-            </Link>
-          </Typography>
           {currentUser && (
             <Box sx={{ flexGrow: 20, display: { xs: "none", md: "flex" } }}>
               <Stack direction="row" alignItems="center">
