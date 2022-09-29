@@ -14,7 +14,6 @@ import {
   Stack,
 } from "@mui/material/";
 import MenuIcon from "@mui/icons-material/Menu";
-import HelpIcon from "@mui/icons-material/Help";
 import UserContext from "../../context/UserContext";
 
 const pages = [

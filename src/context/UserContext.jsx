@@ -41,66 +41,11 @@ export const UserStore = (props) => {
   const history = useHistory();
   const [state, setState] = useState(INITIAL_STATE);
 
-  const signUpUser = async (
-    displayName,
-    email,
-    password,
-    selectedDep,
-    selectedLevel,
-    selectedPosition,
-    selectedDegree,
-    selectedAcadDegree
-  ) => {
+  const signUpUser = async (displayName, email, password) => {
     setState({ ...state, saving: true });
-    let A = 0,
-      B = 0,
-      V = 0;
-    switch (selectedLevel) {
-      case "Цагийн багш":
-        A = 0;
-        B = 0;
-        V = 0;
-        break;
-      case "Дадлагажигч багш":
-        A = 15;
-        B = 3;
-        V = 7;
-        break;
-      case "Багш":
-        A = 18;
-        B = 4;
-        V = 3;
-        break;
-      case "Ахлах багш":
-        A = 16;
-        B = 6;
-        V = 3;
-        break;
-      case "Дэд профессор":
-        A = 14;
-        B = 7;
-        V = 4;
-        break;
-      case "Профессор":
-        A = 12;
-        B = 9;
-        V = 4;
-        break;
-      default:
-        setState({ ...state, error: "Invalid Level" });
-    }
-
     try {
       const additionalData = {
         displayName,
-        selectedDep,
-        selectedLevel,
-        selectedPosition,
-        selectedDegree,
-        selectedAcadDegree,
-        A,
-        B,
-        V,
       };
       const { user } = await createUserWithEmailAndPassword(
         auth,
@@ -124,48 +69,12 @@ export const UserStore = (props) => {
     try {
       const { user } = await signInWithEmailAndPassword(auth, email, password);
       const userRef = await handleUserProfile(user, additionalData);
-      const system = await getData("system/settings/");
-      const curriculum = await getData("curriculums/lesson/");
-      const practice = await getData("curriculums/practice/");
       const users = await getData("users/");
-      let lessonYear,
-        season,
-        normLessonYear,
-        normSeason,
-        resultLock,
-        planLock,
-        month;
-
-      system.forEach((el) => {
-        if (el.name === "selectedLessonYear")
-          lessonYear = { value: el.value, id: el.id };
-        if (el.name === "selectedNormLessonYear")
-          normLessonYear = { value: el.value, id: el.id };
-        if (el.name === "selectedSeason")
-          season = { value: el.value, id: el.id };
-        if (el.name === "selectedNormSeason")
-          normSeason = { value: el.value, id: el.id };
-        if (el.name === "selectedResultLock")
-          resultLock = { value: el.value, id: el.id };
-        if (el.name === "selectedPlanLock")
-          planLock = { value: el.value, id: el.id };
-        if (el.name === "selectedMonth") month = { value: el.value, id: el.id };
-      });
-
       setState({
         ...state,
         currentUser: true,
         uid: userRef.key,
-        lessonYear: lessonYear,
-        season: season,
-        normLessonYear: normLessonYear,
-        normSeason: normSeason,
-        planLock: planLock,
-        resultLock: resultLock,
-        month: month,
         error: "",
-        lessonData: curriculum,
-        practiceData: practice,
         userData: users,
         saving: false,
         ...userRef.val(),
@@ -180,22 +89,8 @@ export const UserStore = (props) => {
     try {
       const { user } = await signInWithPopup(auth, GoogleProvider);
       const userRef = await googleHandleUserProfile(user);
-      const system = await getData("system/settings/");
-      const curriculum = await getData("curriculums/lesson/");
-      const practice = await getData("curriculums/practice/");
       const users = await getData("users/");
-      let lessonYear, season, resultLock, planLock;
 
-      system.forEach((el) => {
-        if (el.name === "selectedLessonYear")
-          lessonYear = { value: el.value, id: el.id };
-        if (el.name === "selectedSeason")
-          season = { value: el.value, id: el.id };
-        if (el.name === "selectedResultLock")
-          resultLock = { value: el.value, id: el.id };
-        if (el.name === "selectedPlanLock")
-          planLock = { value: el.value, id: el.id };
-      });
       if (userRef === 0) {
         history.push("/404");
         setState({
@@ -208,13 +103,6 @@ export const UserStore = (props) => {
           ...state,
           currentUser: true,
           uid: userRef.key,
-          lessonYear: lessonYear,
-          season: season,
-          planLock: planLock,
-          resultLock: resultLock,
-          error: "",
-          lessonData: curriculum,
-          practiceData: practice,
           userData: users,
           saving: false,
           ...userRef.val(),
@@ -267,25 +155,6 @@ export const UserStore = (props) => {
     } catch (err) {
       setState({ ...state, saving: false, error: err.message });
     }
-  };
-
-  const onCheckUserSession = async () => {
-    return;
-    // try {
-    //   const userAuth = await getCurrentUser();
-    //   if (!userAuth) return;
-    //   const userRef = await handleUserProfile(userAuth);
-    //   setState({
-    //     ...state,
-    //     currentUser: true,
-    //     uid: userRef.key,
-
-    //     ...userRef.val(),
-    //     error: "",
-    //   });
-    // } catch (err) {
-    //   setState({ ...state, error: err.message });
-    // }
   };
 
   const updateData = async (oldData, data) => {
@@ -349,7 +218,6 @@ export const UserStore = (props) => {
         googleSignIn,
         signOutUser,
         resetPassword,
-        onCheckUserSession,
         getData,
         updateData,
       }}

@@ -10,7 +10,6 @@ import {
   Box,
   Typography,
   Container,
-  MenuItem,
 } from "@mui/material";
 import LinkMUI from "@mui/material/Link";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -19,12 +18,8 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
 import UserContext from "../../context/UserContext";
 import Spinner from "../General/Spinner";
-import { readPost } from "./../../firebase/utils.js";
 
 const theme = createTheme();
-
-const Degree = ["Магистр", "Доктор"];
-const AcademicDegree = ["Дэд профессор", "Профессор", "Академич"];
 
 const SignUp = (props) => {
   const userContext = useContext(UserContext);
