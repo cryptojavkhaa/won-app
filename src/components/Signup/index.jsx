@@ -19,7 +19,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
 import UserContext from "../../context/UserContext";
 import Spinner from "../General/Spinner";
-import { readPost } from "../../../firebase/utils.js";
+import { readPost } from "./../../firebase/utils.js";
 
 const theme = createTheme();
 

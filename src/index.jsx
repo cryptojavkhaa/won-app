@@ -4,8 +4,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import { UserStore } from "./context/UserContext.jsx";
-
-// import HelpTabs from "./components/HelpTabs";
+import reportWebVitals from "./reportWebVitals.js";
 
 const rootElement = document.getElementById("root");
 
@@ -20,4 +19,4 @@ ReactDOM.render(
   </>,
   rootElement
 );
-reportWebVitals();
+reportWebVitals(console.log);
