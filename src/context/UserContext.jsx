@@ -84,35 +84,6 @@ export const UserStore = (props) => {
     }
   };
 
-  const googleSignIn = async () => {
-    setState({ ...state, saving: true, error: "" });
-    try {
-      const { user } = await signInWithPopup(auth, GoogleProvider);
-      const userRef = await googleHandleUserProfile(user);
-      const users = await getData("users/");
-
-      if (userRef === 0) {
-        history.push("/404");
-        setState({
-          ...state,
-          currentUser: false,
-          saving: false,
-        });
-      } else {
-        setState({
-          ...state,
-          currentUser: true,
-          uid: userRef.key,
-          userData: users,
-          saving: false,
-          ...userRef.val(),
-        });
-      }
-    } catch (err) {
-      setState({ ...state, saving: false, error: err.message });
-    }
-  };
-
   const signOutUser = async () => {
     setState({ ...state, saving: true, error: "" });
     try {
@@ -215,7 +186,6 @@ export const UserStore = (props) => {
         state,
         signUpUser,
         signInUser,
-        googleSignIn,
         signOutUser,
         resetPassword,
         getData,

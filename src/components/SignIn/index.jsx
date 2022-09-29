@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
-import { GoogleLoginButton } from "react-social-login-buttons";
 import {
   Alert,
   Avatar,
@@ -45,18 +44,7 @@ const SignIn = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    if (data.get("email").slice(-19) !== "@ulaanbaatar.edu.mn") {
-      let err =
-        "Та зөвхөн сургуулийн албан мэйл хаягаар нэвтрэх боломжтой (XXX@ulaanbaatar.edu.mn)";
-      setErrors(err);
-      setSpinner(false);
-    } else {
-      userContext.signInUser(data.get("email"), data.get("password"));
-    }
-  };
-
-  const GoogleHandleSubmit = () => {
-    userContext.googleSignIn();
+    userContext.signInUser(data.get("email"), data.get("password"));
   };
 
   return spinner ? (
@@ -118,7 +106,6 @@ const SignIn = (props) => {
             >
               Нэвтрэх
             </Button>
-            <GoogleLoginButton onClick={GoogleHandleSubmit} />
             <Grid container>
               <Grid item xs>
                 <Link

@@ -17,8 +17,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import UserContext from "../../context/UserContext";
 
 const pages = [
-  { page: "Ноогдол", path: "/plan" },
-  { page: "Гүйцэтгэл", path: "/result" },
+  { page: "Монголоос мөнгө шилжүүлэх", path: "/montokor" },
+  { page: "Солонгосоос мөнгө шилжүүлэх", path: "/kortomon" },
 ];
 
 const linkStyle = {
